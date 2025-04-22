@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Profile</title>
+    <link rel="stylesheet" href="Styles/profile-style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu-container">
+            <button class="menu-button">☰</button>
+            <div class="dropdown-menu">
+                <a href="home.html">Home</a>
+                <a href="profile.html">Profile</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>        
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Images/logo1.png" alt="Logo 1" class="logo1">
+                <img src="Images/logo2.png" alt="Logo 2" class="logo2">
+            </div>
+            <div class="aghamsi">AGHAMSI</div>
+        </div>
+    </header>
+
+    <div class="profile-wrapper">
+        <div class="profile-container">
+            <h2 id="user-name">User</h2>
+            <div class="profile-details" id="profile-details">
+                <p><strong>Role:</strong> <span id="user-role">Loading...</span></p>
+                <p id="user-id-container" class="hidden"><strong>ID:</strong> <span id="user-id">Loading...</span></p>
+            </div>            
+            <button onclick="logout()" class="logout-button">Logout</button>
+        </div>
+    </div>
+    
+    
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+        const user = JSON.parse(localStorage.getItem("loggedInUser"));
+
+        if (!user) {
+            alert("No user logged in! Redirecting to login page.");
+            window.location.href = "LoginPage.html";
+            return;
+        }
+
+        // Update UI with user data
+        document.getElementById("user-name").innerText = user.full_name || "Unknown User";
+        document.getElementById("user-role").innerText = user.role || "No role assigned";
+
+        // Check if the user is a teacher and show Employee ID
+        if (user.role === "teacher") {
+            console.log("User is a teacher. Employee ID:", user.employee_id);
+            document.getElementById("user-id-container").classList.remove("hidden");
+            document.getElementById("user-id").innerText = user.employee_id ? user.employee_id : "Not provided";
+        } 
+        
+        // Check if the user is a student and show LRN
+        else if (user.role === "student") {
+            console.log("User is a student. LRN:", user.lrn);
+            document.getElementById("user-id-container").classList.remove("hidden");
+            document.getElementById("user-id").innerText = user.lrn ? user.lrn : "Not provided";
+        }
+    });
+
+    function logout() {
+        localStorage.removeItem("loggedInUser");
+        alert("You have been logged out");
+        window.location.href = "LoginPage.html";
+    }
+
+    
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login Page</title>
+  <link rel="stylesheet" href="Styles/LogInPage.css" />
+</head>
+<body>
+  <div class="login-container">
+    <img src="Images/adelle-logo.png" alt="Adelle Logo" class="logo" />
+    <h1>Poblacion, Arayat Pampanga.</h1>
+    <p class="subtitle">Log-in as:</p>
+    <div class="buttons">
+      <button onclick="location.href='my-account-teacher.html'">TEACHER</button>
+      <button onclick="location.href='my-account-student.html'">STUDENT</button>
+    </div>
+    <p class="create-account" id="createAccount">Create Account</p>
+    <a href="admin-dashboard.html" class="Admin-dash"  id="adminDashboard">Admin</a>
+  </div>
+
+  <!-- Pop-up -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <span class="close" id="closePopup">&times;</span>
+      <h2>Create Account</h2>
+      <button onclick="location.href='create-account-teacher.html'">Teacher</button>
+      <button onclick="location.href='create-account-student.html'">Student</button>
+    </div>
+  </div>
+
+  <script>
+    // Get the popup and elements for opening and closing it
+    const createAccountLink = document.getElementById('createAccount');
+    const popup = document.getElementById('popup');
+    const closePopup = document.getElementById('closePopup');
+
+    // Show popup when "Create Account" is clicked
+    createAccountLink.addEventListener('click', () => {
+      popup.style.display = 'flex'; // Show the popup
+    });
+
+    // Close the popup when the close button is clicked
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none'; // Hide the popup
+    });
+
+    // Close popup when clicking outside of the popup content
+    window.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<head>
+    <title>Create Account</title>
+    <link rel="stylesheet" href="Styles/CreateAccount-Style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu-container">
+            <button class="menu-button">☰</button>
+            <div class="dropdown-menu">
+                <a href="home.html">Home</a>
+                <a href="my-account-student.html">My Account</a>
+            </div>
+        </div>        
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Images/logo1.png" alt="Logo 1" class="logo1">
+                <img src="Images/logo2.png" alt="Logo 2" class="logo2">
+            </div>
+            <div class="aghamsi">AGHAMSI</div>
+        </div>
+    </header>
+    
+    <div class="title-section">
+        <h1>Create Student Account</h1>
+    </div>
+    
+    <div class="login-container">
+        <form id="signupForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="full-name" placeholder="FULL NAME" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="EMAIL" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <select id="grade" required>
+                        <option value="" disabled selected>GRADE LEVEL</option>
+                        <option>Grade 1</option>
+                        <option>Grade 2</option>
+                        <option>Grade 3</option>
+                        <option>Grade 4</option>
+                        <option>Grade 5</option>
+                        <option>Grade 6</option>
+                        <option>Grade 7</option>
+                        <option>Grade 8</option>
+                        <option>Grade 9</option>
+                        <option>Grade 10</option>
+                        <option>Grade 11</option>
+                        <option>Grade 12</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="lrn" placeholder="Learner Reference Number" required pattern="\d{12}" title="LRN must be exactly 12 digits">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <select id="section" required>
+                        <option value="" disabled selected>SECTION</option>
+                        <option>Section A</option>
+                        <option>Section B</option>
+                        <option>Section C</option>
+                        <option>Section D</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="PASSWORD" required>
+                </div>
+            </div>
+            <button type="submit" class="sign-up-button">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+
+// List of valid LRNs allowed to register
+// List of valid LRNs allowed to register
+const allowedLRNs = [
+    "123456789012", 
+    "987654321098",
+    "112233445566"
+];
+
+// Store used LRNs (this should ideally be fetched from the backend)
+let usedLRNs = [];
+
+document.getElementById('signupForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    let fullName = document.getElementById("full-name").value.trim();
+    let email = document.getElementById("email").value.trim().toLowerCase();
+    let password = document.getElementById("password").value.trim();
+    let lrnField = document.getElementById("lrn").value.trim();
+    let role = "student"; 
+
+    // Validate LRN format
+    if (!/^\d{12}$/.test(lrnField)) {
+        alert("LRN must be exactly 12 digits.");
+        return;
+    }
+
+    // Check if LRN is in the allowed list
+    if (!allowedLRNs.includes(lrnField)) {
+        alert("This LRN is not authorized to create an account.");
+        return;
+    }
+
+    // Check if LRN is already used
+    if (usedLRNs.includes(lrnField)) {
+        alert("This LRN has already been used. Please contact admin.");
+        return;
+    }
+
+    console.log("Sending data:", { full_name: fullName, email, password, role, lrn: lrnField });
+
+    const response = await fetch("http://192.168.100.117:4000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ full_name: fullName, email, password, role, lrn: lrnField })
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+        alert(result.error);
+    } else {
+        // Save the LRN as used after successful registration
+        usedLRNs.push(lrnField);
+        
+        localStorage.setItem("loggedInUser", JSON.stringify({ full_name: fullName, email, role }));
+        localStorage.setItem("forceUIUpdate", "true");
+        alert("Account created successfully! Logging in...");
+        window.location.href = "home.html";
+    }
+});
+
+// Fetch used LRNs from the server on page load
+async function fetchUsedLRNs() {
+    try {
+        const response = await fetch("http://192.168.100.117:4000/used-lrns");
+        const data = await response.json();
+        usedLRNs = data.usedLRNs || [];
+    } catch (error) {
+        console.error("Error fetching used LRNs:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", fetchUsedLRNs);
+
+
+
+
+function showMyAccountChoice() {
+    document.getElementById("my-account-choice").classList.remove("hidden");
+}
+
+function showAccountChoice() {
+    document.getElementById("account-choice").classList.remove("hidden");
+}
+
+function closePopup(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Teacher</title>
+    <link rel="stylesheet" href="Styles/My Account-Teacher style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu-container">
+            <button class="menu-button">☰</button>
+            <div class="dropdown-menu">
+                <a href="home.html">Home</a>
+                <a href="create-account-teacher.html" id="showAccountChoice">Create Account</a>
+            </div>
+        </div>        
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Images/logo1.png" alt="Logo 1" class="logo1">
+                <img src="Images/logo2.png" alt="Logo 2" class="logo2">
+            </div>
+            <div class="aghamsi">AGHAMSI</div>
+        </div>
+    </header>
+
+    <div class="title-section">
+        <h1>My Account - Teacher</h1>
+    </div>
+
+    <div class="login-container">
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="employeeId">Employee ID</label>
+                <input type="text" id="employeeId" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required>
+            </div>
+            <div class="sign-in">
+                <button type="submit" class="sign-in-button">Sign In</button>
+            </div>            
+        </form>
+    </div>
+
+    <!-- Create Account Popup -->
+    <div id="account-choice" class="account-choice hidden">
+        <h2>Create Account Type</h2>
+        <button onclick="location.href='create-account-teacher.html'" class="choice-button">Teacher</button>
+        <button onclick="location.href='create-account-student.html'" class="choice-button">Student</button>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+        
+            const email = document.getElementById("Email").value;
+            const employeeId = document.getElementById("employeeId").value;
+            const password = document.getElementById("password").value;
+        
+            const response = await fetch("http://192.168.100.117:4000/login", {//eto rin  IPv4 Address nyo lalagay  Ex-http://192.168.100.117:4000
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password, role: "teacher", employeeId })
+            });
+        
+            const result = await response.json();
+            
+            if (result.error) {
+                alert(result.error);
+            } else {
+                localStorage.setItem("loggedInUser", JSON.stringify(result.user));
+                alert("Login successful!");
+                window.location.href = "home.html"; // Redirect after login
+            }
+        });
+
+        </script>
+        
+
+</body>
+</html>

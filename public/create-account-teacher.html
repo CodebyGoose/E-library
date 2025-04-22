@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+    <title>Create Teacher Account</title>
+    <link rel="stylesheet" href="Styles/CreateAccount-Teacher-Style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="menu-container">
+            <button class="menu-button">☰</button>
+            <div class="dropdown-menu">
+                <a href="home.html">Home</a>
+                <a href="my-account-teacher.html">My Account</a>
+            </div>
+        </div>        
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Images/logo1.png" alt="Logo 1" class="logo1">
+                <img src="Images/logo2.png" alt="Logo 2" class="logo2">
+            </div>
+            <div class="aghamsi">AGHAMSI</div>
+        </div>
+    </header>
+    
+    <div class="title-section">
+        <h1>Create Teacher Account</h1>
+    </div>
+    
+    <div id="my-account-choice" class="account-choice hidden">
+        <h2>Select Account Type</h2>
+        <button onclick="location.href='my-account-teacher.html'" class="choice-button">Teacher</button>
+        <button onclick="location.href='my-account-student.html'" class="choice-button">Student</button>
+    </div>
+
+    <div class="login-container">
+        <form id="signupForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="full-name" placeholder="FULL NAME" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" placeholder="EMAIL" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="text" id="employee-id" placeholder="Employee ID" required>
+                </div>
+                <div class="form-group">
+                    <select id="department" required>
+                        <option value="" disabled selected>DEPARTMENT</option>
+                        <option>Grade School</option>
+                        <option>Junior High School</option>
+                        <option>Senior High School</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <input type="password" id="password" placeholder="PASSWORD" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirm-password" placeholder="CONFIRM PASSWORD" required>
+                </div>
+            </div>
+            <button type="submit" class="sign-up-button">Sign Up</button>
+        </form>
+    </div>
+
+    
+    <script>
+
+// List of valid Employee IDs allowed to register
+const allowedEmployeeIDs = [
+    "EMP123456", 
+    "EMP987654",
+    "EMP112233"
+];
+
+// Store used Employee IDs (fetched from the server)
+let usedEmployeeIDs = [];
+
+document.getElementById('signupForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    let fullName = document.getElementById("full-name").value.trim();
+    let email = document.getElementById("email").value.trim().toLowerCase();
+    let password = document.getElementById("password").value.trim();
+    let confirmPassword = document.getElementById("confirm-password").value.trim();
+    let employeeIdField = document.getElementById("employee-id").value.trim();
+    let role = "teacher"; 
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        alert("Passwords do not match! Please re-enter.");
+        return;
+    }
+
+    // Check if Employee ID is in the allowed list
+    if (!allowedEmployeeIDs.includes(employeeIdField)) {
+        alert("This Employee ID is not authorized to create an account.");
+        return;
+    }
+
+    // Check if Employee ID is already used
+    if (usedEmployeeIDs.includes(employeeIdField)) {
+        alert("This Employee ID has already been used. Please contact admin.");
+        return;
+    }
+
+    console.log("Sending data:", { full_name: fullName, email, password, role, employee_id: employeeIdField });
+
+    const response = await fetch("http://192.168.100.117:4000/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ full_name: fullName, email, password, role, employee_id: employeeIdField })
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+        alert(result.error);
+    } else {
+        // Save the Employee ID as used after successful registration
+        usedEmployeeIDs.push(employeeIdField);
+        
+        localStorage.setItem("loggedInUser", JSON.stringify({ full_name: fullName, email, role }));
+        localStorage.setItem("forceUIUpdate", "true"); 
+        alert("Account created successfully! Logging in...");
+        window.location.href = "home.html";
+    }
+});
+
+// Fetch used Employee IDs from the server on page load
+async function fetchUsedEmployeeIDs() {
+    try {
+        const response = await fetch("http://192.168.100.117:4000/used-employee-ids");
+        const data = await response.json();
+        usedEmployeeIDs = data.usedEmployeeIDs || [];
+    } catch (error) {
+        console.error("Error fetching used employee IDs:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", fetchUsedEmployeeIDs);
+
+
+
+function showMyAccountChoice() {
+    document.getElementById("my-account-choice").classList.remove("hidden");
+}
+
+function showAccountChoice() {
+    document.getElementById("account-choice").classList.remove("hidden");
+}
+
+function closePopup(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+
+    </script>
+</body>
+</html>

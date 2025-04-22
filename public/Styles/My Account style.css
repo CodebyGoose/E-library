@@ -1,0 +1,237 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+html, body {
+    height: 100%;
+    background-color: #095072;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.full-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #E2E2E2;
+    width: 100%;
+    padding: 16px;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-button {
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px 15px;
+    border: none;
+    background: #fcfdfd;
+    color: rgb(0, 0, 0);
+    border-radius: 5px;
+    background: transparent;
+    border: none !important;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 150px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+}
+
+.dropdown-menu a {
+    color: rgb(12, 1, 1);
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: #ddd;
+}
+
+.menu-container:hover .dropdown-menu {
+    display: block;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo1, .logo2 {
+    object-fit: cover;
+    position: relative; 
+}
+
+
+.logo1 {
+    left: var(--logo1-left, -190px);
+    top: var(--logo1-top, 0px);
+    width: 125px;
+    height: 125px;
+}
+
+.logo2 { 
+    left: var(--logo2-left, -190px);
+    top: var(--logo2-top, 0px);
+    width: 155px;
+    height: 155px;
+}
+
+.aghamsi {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 8vw;
+    left: 50%;
+    transform: translateX(-25%);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.title-section {
+    background-color: #E2E2E2;
+    text-align: center;
+    padding: 10px;
+    margin-top: 30px;
+}
+
+.title-section h1 {
+    font-size: 30px;
+    color: #333;
+}
+
+.login-container {
+    max-width: 1000px;
+    width: 80000%;
+    margin: auto;
+    padding: 25px;
+    background-color: #E2E2E2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 3px;
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 50%;
+    padding: 12px;
+    border: 2px solid #095072;
+    border-radius: 25px;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #095072;
+}
+
+.sign-in {
+    display: flex;
+    justify-content: center;
+}
+
+.sign-in-button {
+    background-color: #095072; /* Match background color */
+    color: white; /* Keep text readable */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+}
+
+.sign-in-button:hover {
+    background-color: #063e56; /* Slightly darker shade for hover effect */
+}
+
+
+/* CSS Adjustments */
+.account-choice {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #E2E2E2;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+}
+
+.account-choice h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.choice-button {
+    padding: 12px 25px;
+    background-color: #095072;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 150px;
+    text-align: center;
+}
+
+.choice-button:hover {
+    background-color: #005571;
+}
+
+.hidden {
+    display: none;
+}
+

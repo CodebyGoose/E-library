@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="Styles/home-style.css">
+</head>
+<body>
+    <div class="background-image"></div>
+
+    <header class="header">
+        <div class="menu-container">
+            <button class="menu-button">☰</button>
+            <div class="dropdown-menu">
+                <a href="home.html">Home</a>
+                <a href="#" id="showMyAccountChoice" onclick="showPopup('my-account-choice')">My Account</a>
+                <a href="#" id="showAccountChoice" onclick="showPopup('account-choice')">Create Account</a>
+                <a href="profile.html" id="profileLink" class="hidden">Profile</a>
+                <a href="#" id="logoutLink" class="hidden" onclick="logout()">Logout</a>
+            </div>
+        </div>        
+        <div class="header-content">
+            <div class="logo-container">
+                <img src="Images/logo1.png" alt="Logo 1" class="logo1">
+                <img src="Images/logo2.png" alt="Logo 2" class="logo2">
+            </div>
+            <div class="aghamsi">AGHAMSI</div>
+        </div>
+    </header>
+
+    <div class="title-section">
+        <h1>Home</h1>
+        <div id="addBookCard" class="add-book-card hidden" onclick="openAddBookPopup()">+</div>
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Search..." oninput="searchBooks()">
+            <span class="clear-icon hidden" id="clearSearch" onclick="clearSearch()">X</span>
+        </div>        
+    </div>
+
+    <div class="book-grid"></div>
+
+    <div id="addBookPopup" class="popup hidden">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeAddBookPopup()">&times;</span>
+            <h2>Add Book</h2>
+            <input type="text" id="bookName" placeholder="Book Name">
+            <input type="text" id="bookAuthor" placeholder="Author">
+            <input type="number" id="bookYear" placeholder="Year">
+            <input type="file" id="bookFile" accept=".pdf, .epub, .docx, .txt">
+    
+            <!-- 🔹 Add the book list here -->
+            <div id="popupBookList" class="popup-book-list"></div>
+    
+            <button onclick="addBook()" class="choice-button" style="margin-top: 15px;">Upload</button>
+        </div>
+    </div>
+    
+    
+    <div id="account-choice" class="account-choice hidden">
+        <h2>Create Account Type</h2>
+        <button onclick="location.href='create-account-teacher.html'" class="choice-button">Teacher</button>
+        <button onclick="location.href='create-account-student.html'" class="choice-button">Student</button>
+    </div>
+    
+    <div id="my-account-choice" class="account-choice hidden">
+        <h2>Select Account Type</h2>
+        <button onclick="location.href='my-account-teacher.html'" class="choice-button">Teacher</button>
+        <button onclick="location.href='my-account-student.html'" class="choice-button">Student</button>
+        <button class="close-btn" onclick="closePopup('my-account-choice')">Close</button>
+    </div>
+    
+    
+    
+
+
+    <script src="home-script.js"></script>
+    <script>
+        // Run when DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("DOM loaded - checking user login status");
+            
+            // Call updateUI directly on page load
+            updateUI();
+            
+            // Also attempt to load books if that function exists
+            if (typeof loadBooks === 'function') {
+                loadBooks();
+            }
+        });
+        
+        // Additionally check again after a short delay to ensure everything has loaded
+        setTimeout(function() {
+            console.log("Delayed check - updating UI again");
+            updateUI();
+        }, 500);
+
+        function showPopup(popupId) {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+        popup.style.display = "flex";  // Change this line to use flex
+        popup.classList.remove("hidden");
+    } else {
+        console.error("Popup not found: " + popupId);
+    }
+}
+
+function closePopup(popupId) {
+    const popup = document.getElementById(popupId);
+    if (popup) {
+        popup.style.display = "none";  // Add this line
+        popup.classList.add("hidden");
+    }
+}
+    </script>
+</body>
+</html>

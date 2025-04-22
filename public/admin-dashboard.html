@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="Styles/admin-style.css">
+</head>
+
+<body>
+
+    <!-- Admin Login Popup -->
+    <div id="adminLoginPopup" class="popup">
+        <div class="popup-content">
+            <h2>Admin Login</h2>
+            <input type="text" id="adminName" placeholder="Admin Name">
+            <input type="password" id="adminCode" placeholder="Unique Code">
+            <button onclick="verifyAdmin()">Login</button>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard (Initially Hidden) -->
+    <div id="adminDashboard" class="hidden">
+        <header class="header">
+            <h1>Admin Dashboard</h1>
+            <button onclick="logout()">Logout</button>
+        </header>
+
+        <section>
+            <h2>Manage Users</h2>
+            <table id="usersTable">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>LRN / Employee ID</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>Manage Books</h2>
+            <button id="openAddBookPopup">➕ Add Book</button>
+            <table id="booksTable">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Year</th>
+                    <th>Action</th>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Add Book Popup -->
+        <div id="addBookPopup" class="popup hidden">
+            <div class="popup-content">
+                <span class="close-btn" onclick="closeAddBookPopup()">&times;</span>
+                <h2>Add Book</h2>
+                <input type="text" id="bookName" placeholder="Book Name">
+                <input type="text" id="bookAuthor" placeholder="Author">
+                <input type="number" id="bookYear" placeholder="Year">
+                <input type="file" id="bookFile" accept=".pdf, .epub, .docx, .txt">
+                <button onclick="addBook()">Upload</button>
+            </div>
+        </div>
+
+        <!-- Edit Book Popup -->
+        <div id="editBookPopup" class="popup hidden">
+            <div class="popup-content">
+                <span class="close-btn" onclick="closeEditBookPopup()">&times;</span>
+                <h2>Edit Book</h2>
+                <input type="hidden" id="editBookId">
+                <input type="text" id="editBookName" placeholder="Book Name">
+                <input type="text" id="editBookAuthor" placeholder="Author">
+                <input type="number" id="editBookYear" placeholder="Year">
+                <input type="file" id="editBookFile" accept=".pdf, .epub, .docx, .txt">
+                <button onclick="updateBook()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+
+</body>
+</html>
